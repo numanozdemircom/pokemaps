@@ -9,3 +9,10 @@ A Pokemon Go-style dating app where users can walk around and send messages to p
 
 # Thanks to
 Google Developers Club
+
+# Web, Android, iOS Compatible
+
+# Images
+<img src="image (38).png">
+<img src="image (39).png">
+
