@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PokéMap Registration</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #f9f9ff, #e0f0ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .container img {
+      display: block;
+      margin: 0 auto 1rem;
+      width: 96px;
+      height: 96px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    h4 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: purple;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-shadow:
+        0 0 6px purple,
+        0 0 12px turquoise,
+        0 0 18px blue,
+        0 0 25px pink;
+      animation: flicker 1.5s infinite alternate, jitter 0.2s infinite;
+    }
+
+    @keyframes flicker {
+      0% {
+        opacity: 1;
+        text-shadow:
+          0 0 6px yellow,
+          0 0 12px hotpink,
+          0 0 18px blue;
+      }
+      50% {
+        opacity: 0.8;
+        text-shadow:
+          0 0 12px pink,
+          0 0 25px blue;
+      }
+      100% {
+        opacity: 1;
+        text-shadow:
+          0 0 10px hotpink,
+          0 0 20px yellow,
+          0 0 28px pink;
+      }
+    }
+
+    @keyframes jitter {
+      0% { transform: translate(0px, 0px) rotate(0deg); }
+      25% { transform: translate(1px, -1px) rotate(-1deg); }
+      50% { transform: translate(-1px, 1px) rotate(1deg); }
+      75% { transform: translate(1px, 1px) rotate(0deg); }
+      100% { transform: translate(0px, -1px) rotate(-1deg); }
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #ffcb05;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #2d2d2d;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #f4b700;
+    }
+
+    .response {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .tab-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .tab-buttons button {
+      width: 48%;
+      padding: 0.5rem;
+      background-color: #eee;
+    }
+
+    .tab-buttons button.active {
+      background-color: #ffcb05;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="appContainer">
+  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/25.gif" alt="Pikachu">
+  <h2>Register to PokéMaps</h2>
+  <h4>Flirt anonymously with Pokémon around you</h4>
+
+  <div class="tab-buttons">
+    <button id="registerTab" class="active">Register</button>
+    <button id="loginTab">Login</button>
+  </div>
+
+  <!-- Register Form -->
+  <form id="registerForm">
+    <label>Username</label>
+    <input type="text" name="username" required>
+
+    <label>Password</label>
+    <input type="password" name="password" required>
+
+    <label>World Preference</label>
+    <select name="world_pref">
+      <option value="0">Classic</option>
+      <option value="1">Alternate</option>
+    </select>
+
+    <label>Gender</label>
+    <select name="gender">
+      <option value="0">Male</option>
+      <option value="1">Female</option>
+    </select>
+
+    <label>GPS Location</label>
+    <input type="text" name="gps_location" id="gps_location" placeholder="Fetching..." required>
+
+    <label>Age</label>
+    <input type="number" name="age" required min="1">
+
+    <label>Zodiac Sign</label>
+    <select name="zodiac_sign">
+      <option value="">-- Choose --</option>
+      <option value="aries">Aries</option>
+      <option value="taurus">Taurus</option>
+      <option value="gemini">Gemini</option>
+      <option value="cancer">Cancer</option>
+      <option value="leo">Leo</option>
+      <option value="virgo">Virgo</option>
+      <option value="libra">Libra</option>
+      <option value="scorpio">Scorpio</option>
+      <option value="sagittarius">Sagittarius</option>
+      <option value="capricorn">Capricorn</option>
+      <option value="aquarius">Aquarius</option>
+      <option value="pisces">Pisces</option>
+    </select>
+
+    <label>Hobbies</label>
+    <input type="text" name="hobbies">
+
+    <label>Profile Description</label>
+    <textarea name="profile_description" rows="3"></textarea>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <!-- Login Form -->
+  <form id="loginForm" class="hidden">
+    <label>Username</label>
+    <input type="text" name="username" required>
+
+    <label>Password</label>
+    <input type="password" name="password" required>
+
+    <button type="submit">Login</button>
+  </form>
+
+  <div class="response" id="responseBox"></div>
+</div>
+
+<script>
+  const gpsInput = document.getElementById("gps_location");
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        gpsInput.value = `${position.coords.latitude},${position.coords.longitude}`;
+      },
+      () => gpsInput.placeholder = "Unable to fetch location"
+    );
+  }
+
+  const registerTab = document.getElementById("registerTab");
+  const loginTab = document.getElementById("loginTab");
+  const registerForm = document.getElementById("registerForm");
+  const loginForm = document.getElementById("loginForm");
+  const responseBox = document.getElementById("responseBox");
+  const appContainer = document.getElementById("appContainer");
+
+  registerTab.addEventListener("click", () => {
+    registerForm.classList.remove("hidden");
+    loginForm.classList.add("hidden");
+    registerTab.classList.add("active");
+    loginTab.classList.remove("active");
+  });
+
+  loginTab.addEventListener("click", () => {
+    loginForm.classList.remove("hidden");
+    registerForm.classList.add("hidden");
+    loginTab.classList.add("active");
+    registerTab.classList.remove("active");
+  });
+
+  registerForm.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const formData = new FormData(registerForm);
+    const jsonData = {};
+    for (const [key, value] of formData.entries()) {
+      jsonData[key] = value;
+    }
+
+    try {
+      const res = await fetch("api.php?step=registration", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(jsonData)
+      });
+      const data = await res.json();
+      responseBox.style.color = res.ok && data.success ? "green" : "red";
+      responseBox.textContent = data.message || "Something went wrong.";
+      if (data.success) {
+        localStorage.setItem("currentUser", jsonData.username);
+        showLoggedInView();
+      }
+    } catch (err) {
+      responseBox.style.color = "red";
+      responseBox.textContent = "Network error: " + err.message;
+    }
+  });
+
+  loginForm.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const formData = new FormData(loginForm);
+    const jsonData = {};
+    for (const [key, value] of formData.entries()) {
+      jsonData[key] = value;
+    }
+
+    try {
+      const res = await fetch("api.php?step=login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(jsonData)
+      });
+      const data = await res.json();
+      responseBox.style.color = res.ok && data.success ? "green" : "red";
+      responseBox.textContent = data.message || "Login failed.";
+      if (data.success) {
+        localStorage.setItem("currentUser", jsonData.username);
+        showLoggedInView();
+      }
+    } catch (err) {
+      responseBox.style.color = "red";
+      responseBox.textContent = "Login error: " + err.message;
+    }
+  });
+
+function showLoggedInView() {
+  fetch("/api.php?step=list")
+    .then(response => response.json())
+    .then(data => {
+      if (!data.success || !data.users) throw new Error("Invalid data");
+
+      document.body.innerHTML = `
+        <div id="map" style="width: 100vw; height: 100vh;"></div>
+        <button id="logoutBtn" style="position: absolute; top: 16px; right: 16px; z-index: 1000; padding: 10px 16px; border: none; background: crimson; color: white; font-weight: bold; border-radius: 6px; cursor: pointer;">Logout</button>
+        <div id="userModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px; border-radius:10px; box-shadow:0 4px 20px rgba(0,0,0,0.3); z-index:2000; max-width:90vw; width:320px;">
+          <h3 id="modalUsername"></h3>
+          <p id="modalDescription"></p>
+          <textarea id="modalMessage" rows="3" placeholder="Write your message..." style="width:100%; margin:10px 0;"></textarea>
+          <button id="sendMessageBtn" style="background:#007bff; color:white; border:none; padding:10px; border-radius:5px; width:100%; cursor:pointer;">Send Message</button>
+          <button onclick="document.getElementById('userModal').style.display='none'" style="margin-top:8px; background:#ccc; border:none; padding:8px; border-radius:5px; width:100%; cursor:pointer;">Close</button>
+        </div>
+      `;
+
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.clear();
+        location.reload();
+      });
+
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD1Mu4LEwj1gxm2kmSFbfUbGZZbEi3LTUw&callback=initMap`;
+      script.async = true;
+      script.defer = true;
+
+      window.initMap = function () {
+        const first = data.users[0];
+        const [initLatStr, initLngStr] = first.gps_location.split(',');
+        const initLat = parseFloat(initLatStr.trim());
+        const initLng = parseFloat(initLngStr.trim());
+
+        if (isNaN(initLat) || isNaN(initLng)) {
+          document.body.innerHTML = '<p style="text-align:center;color:red;">Invalid initial coordinates</p>';
+          return;
+        }
+
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 6,
+          center: { lat: initLat, lng: initLng }
+        });
+
+        data.users.forEach(user => {
+          const [latStr, lngStr] = user.gps_location.split(',');
+          const lat = parseFloat(latStr.trim());
+          const lng = parseFloat(lngStr.trim());
+
+          if (isNaN(lat) || isNaN(lng)) return;
+
+          const pokemonId = user.user_id + 1;
+          const iconUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${pokemonId}.gif`;
+
+          const marker = new google.maps.Marker({
+            position: { lat, lng },
+            map: map,
+            icon: {
+              url: iconUrl,
+              scaledSize: new google.maps.Size(64, 64)
+            },
+            title: user.username
+          });
+
+          marker.addListener("click", () => {
+  const genderText = user.gender === "1" ? "Female" : "Male";
+  const ageText = user.age ? `${user.age}` : "Unknown";
+  const zodiac = user.zodiac_sign || "Unknown";
+  const hobbies = user.hobbies || "None";
+  const desc = user.profile_description || "No description.";
+
+  const profileHTML = `
+    <strong>Description:</strong> ${desc}<br><br>
+    <strong>Gender:</strong> ${genderText}<br><br>
+    <strong>Age:</strong> ${ageText}<br><br>
+    <strong>Zodiac:</strong> ${zodiac}<br><br>
+    <strong>Hobbies:</strong> ${hobbies}
+  `;
+
+  document.getElementById("modalUsername").innerText = user.username;
+  document.getElementById("modalDescription").innerHTML = profileHTML;
+  document.getElementById("modalMessage").value = "";
+  document.getElementById("userModal").style.display = "block";
+
+  document.getElementById("sendMessageBtn").onclick = async () => {
+    const sender = localStorage.getItem("currentUser");
+    const receiver = user.username;
+    const message = document.getElementById("modalMessage").value.trim();
+
+    if (!message) {
+      alert("Please write a message.");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api.php?step=send_message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sender, receiver, message })
+      });
+      const result = await res.json();
+      alert(result.message || "Message sent.");
+      document.getElementById("userModal").style.display = "none";
+    } catch (err) {
+      alert("Error sending message: " + err.message);
+    }
+  };
+});
+
+			
+			
+        });
+      };
+
+      document.head.appendChild(script);
+    })
+    .catch(err => {
+      document.body.innerHTML = `<p style="text-align:center;color:red;">Error loading map: ${err.message}</p>`;
+    });
+}
+  
+  if (localStorage.getItem("currentUser")) {
+    showLoggedInView();
+  }
+</script>
+
+</body>
+</html>
